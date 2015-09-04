@@ -31,28 +31,9 @@ class Simulation(object):
 		while(detections < numOfDetections):
 			self.master.tic(masters_clock)
 			self.slave.tic()
-			'''if self.slave.tic():
-				numSwitches = ((masters_clock-1)/4096)
-				if ((numSwitches%2) == 0):
-					print 'M after Backoff: '+str(self.master.aTrain)
-				else:
-					print 'M after Backoff: '+str(self.master.bTrain)
 
 			if masters_clock == 1:
-				print '------------- clock 1'
-				print self.master.aTrain
-				print self.slave.sTrain
-			elif masters_clock == 4097:
-				print '------------- clock 4097'
-				print self.master.bTrain
-				print self.slave.sTrain
-			elif masters_clock == 8193:
-				print '------------- clock 8193'
-				print self.master.aTrain
-				print self.slave.sTrain
-			'''
-
-
+				print true_clock
 			#if true_clock >= 2048:
 				#print '****************'
 				#print 'Clock ' + str(true_clock)
@@ -67,15 +48,12 @@ class Simulation(object):
 				if ((self.slave.inBackOffZone==False) & (self.slave.inOneSlotTo==False)):
 					if ((self.slave.freqNum == self.master.freqNumOne) | (self.slave.freqNum == self.master.freqNumTwo)):
 						self.slave.listen("Master_MAC")
-						#print '>> Hit at ' + str(true_clock)
+						print '>> Hit at ' + str(true_clock)
 			else: # in Rx mode
 				if (self.slave.sendFHS==True):
 					if ((self.slave.freqNum == self.master.freqNumOne) | (self.slave.freqNum == self.master.freqNumTwo)):
 						time = true_clock
 						timeArray[detections] = time
-
-						#if ((time>1050) & (time <1070)):
-							#print 'Min: ' + str(true_clock)
 
 						# Reset Master & Slave
 						self.slave.reset()
@@ -84,18 +62,16 @@ class Simulation(object):
 						true_clock = 0
 
 						detections = detections +1
-						print 'Detection : ' + str(detections)
 					else:
 						print 'Assert: RX & FHS sent, freqs didnt match ' + str(true_clock)
 					
 
-			
+			#increment clocks
 			true_clock = true_clock + 1
-			#increment master clock
 			masters_clock = masters_clock + 1
 			if masters_clock > 16384:
 				masters_clock = 1
-				self.master.resetTrain()
+				#self.master.resetTrain()
 			
 		rand_str = ''.join(random.choice(
                     string.ascii_lowercase

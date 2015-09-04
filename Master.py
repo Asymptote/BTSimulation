@@ -17,10 +17,9 @@ class Master(object):
 		self.FREQUENCIES_PER_TRAIN = 16 # No. of frequencies per train
 		self.SLOTS_PER_TRAIN = 4096 # No. of repetitions per train
 
-		#np.random.seed()
+		np.random.seed()
 		arr = np.random.permutation(32)
 		self.aTrain = arr[0:16]
-		#self.aTrain = np.array([19, 18, 14, 28,  3,  6, 25, 29, 22, 15, 23, 8, 24, 16, 9, 11])
 		self.bTrain = arr[16:32]
 		
 		# Current State
@@ -31,7 +30,7 @@ class Master(object):
 		self.freqNumTwo = 0
 
 	def resetTrain(self):
-		#np.random.seed()
+		np.random.seed()
 		arr = np.random.permutation(32)
 		self.aTrain = arr[0:16]
 		self.bTrain = arr[16:32]
@@ -41,7 +40,6 @@ class Master(object):
 		self.slotMode = MasterSlotMode.tx
 
 	def tic(self, clk):
-
 		numSwitches = ((clk-1)/self.SLOTS_PER_TRAIN)
 
 		if numSwitches >= 4:
@@ -50,6 +48,7 @@ class Master(object):
 			self.train = TrainNum.a
 		else:
 			self.train = TrainNum.b
+
 
 		if ((clk%2) == 1):#if clk is odd -> tx
 			self.slotMode = MasterSlotMode.tx
